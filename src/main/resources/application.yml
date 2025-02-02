@@ -1,10 +1,8 @@
 spring:
-  config:
-    activate:
-      on-profile: local
   batch:
     job:
       names: ${job.name:NONE}
+      enabled: false
     jdbc:
       initialize-schema: always
   datasource:
@@ -15,11 +13,8 @@ spring:
   jpa:
     show-sql: true
 
-
----
-spring:
-  config:
-    activate:
-      on-profile: test
-  jpa:
-    database: h2
+#logging:
+#  level:
+#    org.springframework.boot.autoconfigure.batch: DEBUG
+#    org.springframework.batch: DEBUG
+#    org.springframework.context.support: DEBUG

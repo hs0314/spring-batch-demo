@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mysql:
-    container_name: spring_batch
+    container_name: mysql
     image: mysql:5.7
     environment:
       MYSQL_DATABASE: "spring_batch"

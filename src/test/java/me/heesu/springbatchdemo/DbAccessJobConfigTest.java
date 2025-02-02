@@ -1,13 +1,14 @@
 package me.heesu.springbatchdemo;
 
-import me.heesu.springbatchdemo.core.domain.accounts.AccountsRepository;
-import me.heesu.springbatchdemo.core.domain.orders.Orders;
-import me.heesu.springbatchdemo.core.domain.orders.OrdersRepository;
-import me.heesu.springbatchdemo.job.DataMigrationJobConfig;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import springbatchdemo.core.domain.accounts.AccountsRepository;
+import springbatchdemo.core.domain.orders.Orders;
+import springbatchdemo.core.domain.orders.OrdersRepository;
+import springbatchdemo.job.E4_DataMigrationJobConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
@@ -15,14 +16,13 @@ import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @ActiveProfiles("test") // h2 db 사용
 @SpringBatchTest
-@SpringBootTest(classes = {SpringBatchTestConfig.class, DataMigrationJobConfig.class})
+@SpringBootTest(classes = {SpringBatchTestConfig.class, E4_DataMigrationJobConfig.class})
 class DbAccessJobConfigTest {
 
     @Autowired
