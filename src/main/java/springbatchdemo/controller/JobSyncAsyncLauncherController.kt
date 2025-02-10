@@ -4,6 +4,9 @@ import org.springframework.batch.core.Job
 import org.springframework.batch.core.JobParametersBuilder
 import org.springframework.batch.core.launch.JobLauncher
 import org.springframework.batch.core.JobExecution
+import org.springframework.batch.core.configuration.JobRegistry
+import org.springframework.batch.core.explore.JobExplorer
+import org.springframework.batch.core.launch.JobOperator
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,7 +17,7 @@ import springbatchdemo.core.domain.Member
 import java.util.*
 
 @RestController
-class JobLauncherSyncAsyncController(
+class JobSyncAsyncLauncherController(
         @Qualifier("jobLauncher")
         private val syncJobLauncher: JobLauncher,
         @Qualifier("asyncJobLauncher")

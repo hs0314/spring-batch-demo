@@ -12,7 +12,6 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
-import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +36,6 @@ public class E1_HelloWorldJobConfig {
                 .build();
     }
 
-    @JobScope
     @Bean
     public Step helloWorldStep() {
         return new StepBuilder("helloWorldStep", jobRepository)
@@ -45,7 +43,6 @@ public class E1_HelloWorldJobConfig {
                 .build();
     }
 
-    @StepScope
     @Bean
     public Tasklet helloWorldTasklet() {
         return new Tasklet() {

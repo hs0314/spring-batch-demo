@@ -1,17 +1,27 @@
-#sync
-POST http://localhost:8080/batch/sync
+POST http://localhost:8080/batch/start
 Content-Type: application/json
 
 {
-  "id": "id1"
+  "id": "id3",
+  "jobName": "helloWorldJob"
 }
 
 ###
 
-#async
-POST http://localhost:8080/batch/async
+POST http://localhost:8080/batch/stop
 Content-Type: application/json
 
 {
-"id": "id2"
+  "id": "id3",
+  "jobName": "helloWorldJob"
+}
+
+###
+
+POST http://localhost:8080/batch/restart
+Content-Type: application/json
+
+{
+  "id": "id3",
+  "jobName": "helloWorldJob"
 }

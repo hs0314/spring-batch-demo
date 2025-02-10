@@ -1,11 +1,11 @@
-package me.heesu.springbatchdemo;
+package springbatchdemo.job;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import springbatchdemo.TestBatchConfig;
 import springbatchdemo.core.domain.accounts.AccountsRepository;
 import springbatchdemo.core.domain.orders.Orders;
 import springbatchdemo.core.domain.orders.OrdersRepository;
-import springbatchdemo.job.E4_DataMigrationJobConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import java.util.Date;
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test") // h2 db 사용
 @SpringBatchTest
-@SpringBootTest(classes = {SpringBatchTestConfig.class, E4_DataMigrationJobConfig.class})
+@SpringBootTest(classes = {TestBatchConfig.class, E4_DataMigrationJobConfig.class})
 class DbAccessJobConfigTest {
 
     @Autowired
