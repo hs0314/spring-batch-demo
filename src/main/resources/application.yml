@@ -1,10 +1,8 @@
 spring:
   batch:
     job:
-      names: ${job.name:NONE}
+      names: TestFlowJob #${job.name:NONE}
       enabled: false
-    jdbc:
-      initialize-schema: always
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/spring_batch  # Note the colon after jdbc:mysql
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -13,8 +11,7 @@ spring:
   jpa:
     show-sql: true
 
-#logging:
-#  level:
-#    org.springframework.boot.autoconfigure.batch: DEBUG
-#    org.springframework.batch: DEBUG
-#    org.springframework.context.support: DEBUG
+logging:
+  level:
+    org.springframework.jdbc.core: DEBUG
+
