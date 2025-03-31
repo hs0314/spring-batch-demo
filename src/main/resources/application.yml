@@ -1,17 +1,17 @@
 spring:
   batch:
     job:
-      names: TestFlowJob #${job.name:NONE}
+      names: JobExecutionDeciderJob #${job.name:NONE}
       enabled: false
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/spring_batch  # Note the colon after jdbc:mysql
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: password1234
-  jpa:
-    show-sql: true
-
-logging:
-  level:
-    org.springframework.jdbc.core: DEBUG
+#  jpa:
+#    show-sql: true
+#
+#logging:
+#  level:
+#    org.springframework.jdbc.core: DEBUG
 

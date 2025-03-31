@@ -1,8 +1,10 @@
 package springbatchdemo.job
 
+import org.springframework.batch.core.ExitStatus
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.StepContribution
+import org.springframework.batch.core.StepExecutionListener
 import org.springframework.batch.core.configuration.annotation.JobScope
 import org.springframework.batch.core.job.builder.JobBuilder
 import org.springframework.batch.core.launch.support.RunIdIncrementer
@@ -15,51 +17,52 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.transaction.PlatformTransactionManager
 
 @Configuration
-class TestFlowJobConfig (
+class CustomExitStatusFlowJobConfig (
         private val jobRepository: JobRepository,
         private val transactionManager: PlatformTransactionManager
 ) {
 
     // Step1의 성공여부에 따른 Step2,3 조건부 실행
     @Bean
-    fun testFlowJob(): Job {
-        return JobBuilder("TestFlowJob", jobRepository)
+    fun customExitStatusFlowJob(): Job {
+        return JobBuilder("CustomExitStatusFlowJob", jobRepository)
                 .incrementer(RunIdIncrementer())
-                .start(testFlowJob_step1())
-                .on("COMPLETED").to(step3())
-                .from(testFlowJob_step1())
-                .on("FAILED").to(step2())
+                .start(customExitStatusFlowJob_step1())
+                    .on("FAILED")
+                    .to(customExitStatusFlowJob_step2())
+                    .on("PASS")
+                    .stop()
+                    /* 아래 transition이 없어도, 특정 조건 만족을 못하면 (ex. PASS) 스프링배치가 자동으로 FAILED 처리
+                .from(customExitStatusFlowJob_step2())
+                .on("FAILED")
+                .to(customExitStatusFlowJob_step1())
+                     */
                 .end()
                 .build()
     }
 
     @Bean
-    fun testFlowJob_step1(): Step {
-        return StepBuilder("TestFlowJob_step1", jobRepository)
+    fun customExitStatusFlowJob_step1(): Step {
+        return StepBuilder("CustomExitStatusFlowJob_step1", jobRepository)
                 .tasklet({ contribution: StepContribution?, chunkContext: ChunkContext? ->
                     Thread.sleep(1000)
-                    println("step1 done")
-                    val i = 1/0; // xxx: 실패시 flow 조건에 따라서 step2 실행
+                    println("step1 done with failed status")
+                    if (contribution != null) {
+
+                        // Step1 ExitStatus를 Failed로 처리되도록
+                        contribution.stepExecution.exitStatus = ExitStatus.FAILED
+                    }
+
                     RepeatStatus.FINISHED
                 }, transactionManager)
                 .build()
     }
 
     @Bean
-    fun step2(): Step {
-        return StepBuilder("TestFlowJob_step2", jobRepository)
+    fun customExitStatusFlowJob_step2(): Step {
+        return StepBuilder("CustomExitStatusFlowJob_step2", jobRepository)
                 .tasklet({ contribution: StepContribution?, chunkContext: ChunkContext? ->
                     println("step done")
-                    RepeatStatus.FINISHED
-                }, transactionManager)
-                .build()
-    }
-
-    @Bean
-    fun step3(): Step {
-        return StepBuilder("TestFlowJob_step3", jobRepository)
-                .tasklet({ contribution: StepContribution?, chunkContext: ChunkContext? ->
-                    println("step3 done")
                     RepeatStatus.FINISHED
                 }, transactionManager)
                 .build()
